@@ -22,5 +22,36 @@ router.post('/register', (req, res) => {
     })
 })
 
+//LOGIN
+router.post('/login', (req, res) => {
+  User.findOne({ username: req.body.username })
+    .then(result => {
+      !result && res.status(401).json({
+        msg: 'this user not Found',
+        code: 401
+      })
+      const hash = cryptoJS.AES.decrypt(result.password, process.env.PASS_SEC)
+      const password = hash.toString(cryptoJS.enc.Utf8);
+
+      password !== req.body.password && res.status(401).json({
+        msg: 'pass not correct',
+        code: 401
+      })
+
+      const accessToken = jwt.sign({
+        id: result._id,
+        isAdmin: result.isAdmin
+      }, process.env.TOKEN_SEC, { expiresIn: "3d" } )
+
+      res.status(200).json({ ..._.pick(result, ['username', 'email']), code: 200, token: accessToken })
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err,
+        code: 500
+      })
+    })
+})
+
 
 module.exports = router
