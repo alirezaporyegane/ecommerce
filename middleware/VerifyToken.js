@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const Auth = (req, res, next) => {
-  const authHeaders = req.Headers.token
+  const authHeaders = req.header('x-auth-token')
   if (authHeaders) {
     jwt.verify(authHeaders, process.env.TOKEN_SEC, (err, user) => {
       if (err) return res.status(401).json({
@@ -10,7 +10,7 @@ const Auth = (req, res, next) => {
         code: 401
       })
 
-      req.user = user
+      req.User = user
       next()
     })
   } else {
@@ -23,7 +23,7 @@ const Auth = (req, res, next) => {
 
 const authentication = (req, res, next) => {
   Auth(req, res, () => {
-    if (req.body.id = req.params.id || req.user.isAdmin) {
+    if (req.body.id = req.params.id || req.User.isAdmin) {
       next()
     } else {
       res.status(403).json({
@@ -36,11 +36,12 @@ const authentication = (req, res, next) => {
 
 const Admin = (req, res, next) => {
   Auth(req, res, () => {
-    if (req.user.isAdmin) {
+    console.log(req.User);
+    if (req.User.isAdmin) {
       next()
     } else {
       res.status(403).json({
-        msg: 'you are not allow to that!',
+        msg: 'you are not Admin',
         code: 403
       })
     }

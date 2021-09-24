@@ -46,10 +46,10 @@ router.delete('/:id', [Auth, authentication], (req, res) => {
 
 
 // GET ONE USER
-router.get('/', [Auth, authentication, Admin], (req, res) => {
-  User.find()
+router.get('/:id', [Auth, authentication, Admin], (req, res) => {
+  User.findById(req.params.id)
     .then(result => {
-      res.status(200).json(_.pick(result, ['email', 'username']))
+      res.status(200).json(_.pick(result, ['_id','email', 'username', 'createdAt', 'updatedAt']))
     })
     .catch(err => {
       res.status(500).json({
@@ -60,5 +60,18 @@ router.get('/', [Auth, authentication, Admin], (req, res) => {
 })
 
 // GET ALL USER
+router.get('/', [Auth, Admin], (req, res) => {
+  User.find().select('email username createdAt updatedAt')
+    .then(result => {
+      res.status(200).json(result)
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err,
+        code: 500
+      })
+    })
+})
+
 
 module.exports = router
