@@ -47,7 +47,8 @@ router.delete('/:id', [Auth, authentication], (req, res) => {
 
 // GET ONE USER
 router.get('/:id', [Auth, authentication, Admin], (req, res) => {
-  User.findById(req.params.id)
+  const query = req.params.new
+  query ? User.find.sort({ _id: -1 }).limit(5) : User.findById(req.params.id)
     .then(result => {
       res.status(200).json(_.pick(result, ['_id','email', 'username', 'createdAt', 'updatedAt']))
     })
@@ -61,7 +62,41 @@ router.get('/:id', [Auth, authentication, Admin], (req, res) => {
 
 // GET ALL USER
 router.get('/', [Auth, Admin], (req, res) => {
-  User.find().select('email username createdAt updatedAt')
+  const query = req.query.new
+  query ? 
+  User.find(req.params.id).sort({ _id: -1 }).limit(5).select('email username createdAt updatedAt') 
+  : User.find(req.params.id).select('email username createdAt updatedAt')  
+    .then(result => {
+      res.status(200).json(result)
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err,
+        code: 500
+      })
+    })
+})
+
+
+//GET USER STATUS
+router.get('/user/status', [Auth, Admin], (req, res) => {
+  const date = new Date();
+  const lastYear = new Date(date.setFullYear() - 1)
+
+  User.aggregate([
+    {$match: { createdAt: { $gte: lastYear } }},
+    {
+      $project: {
+        month: { $month: '$createdAt' }
+      }
+    },
+    {
+      $group: {
+        _id: "$month",
+        total: { $sum: 1 }
+      }
+    }
+  ])
     .then(result => {
       res.status(200).json(result)
     })
