@@ -1,7 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const app = express()
-const Api = require('./routes/Api')
+const app = express();
+const cors = require('cors');
+const Api = require('./routes/Api');
+require('dotenv').config()
 
 mongoose.connect("mongodb://127.0.0.1:27017/eCommers",{
       useNewUrlParser: true,
@@ -13,7 +15,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/eCommers",{
       .catch(err => {
         console.log("db not connected", err);
       })
-
+      
+app.use(cors());
 app.use(express.json())
 app.use('/api', Api)
 
