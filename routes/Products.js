@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 // CREATE PRODUCTS
 router.post('/', [Auth, Admin], (req, res) => {
-  const products = new Products(_.pick(req.body,  ['title', 'desc', 'img', 'categories', 'size', 'color', 'price']))
+  const products = new Products(_.pick(req.body,  ['title', 'desc', 'img', 'categories', 'size', 'color', 'price' ]))
   
   products.save()
     .then(result => {
