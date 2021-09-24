@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express()
-const userRoutes = require('./routes/User')
+const Api = require('./routes/Api')
 
 mongoose.connect("mongodb://127.0.0.1:27017/eCommers",{
       useNewUrlParser: true,
@@ -15,7 +15,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/eCommers",{
       })
 
 app.use(express.json())
-app.use('/api/user', userRoutes)
+app.use('/api', Api)
 
 
 const port = process.env.port || 5000;
