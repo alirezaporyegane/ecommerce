@@ -34,4 +34,17 @@ const authentication = (req, res, next) => {
   })
 }
 
-module.exports = { Auth, authentication }
+const Admin = (req, res, next) => {
+  Auth(req, res, () => {
+    if (req.user.isAdmin) {
+      next()
+    } else {
+      res.status(403).json({
+        msg: 'you are not allow to that!',
+        code: 403
+      })
+    }
+  })
+}
+
+module.exports = { Auth, authentication, Admin }
