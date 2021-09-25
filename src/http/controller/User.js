@@ -1,6 +1,7 @@
-const cryptoJS = require('crypto-js');
-const User = require('../modules/User');
-const _ = require('lodash');
+const cryptoJS = require('crypto-js'),
+mongoose = require('mongoose'),
+User = require('../modules/User'),
+_ = require('lodash');
 
 class userController {
   async getAll (req, res) {
@@ -33,8 +34,15 @@ class userController {
   }
 
   async getById (req, res) {
-    const query = req.params.new
-    query ? User.find.sort({ _id: -1 }).limit(5) : User.findById(req.params.id)
+    const id = req.params.id
+
+    if (!mongoose.isValidObjectId(id)) 
+      return res.status(400).json({
+        msg: 'Request Faild',
+        code: 400
+      })
+
+    User.findById(id)
       .then(result => {
         res.status(200).json(_.pick(result, ['_id','email', 'username', 'createdAt', 'updatedAt']))
       })
@@ -77,14 +85,22 @@ class userController {
 
   async update () {
     const password = req.body.password
+    const id = req.params.id
+
     if (password) {
       password = cryptoJS.AES.encrypt(
         password,
         process.env.PASS_SEC
       ).toString()
     }
+
+    if (!mongoose.isValidObjectId(id)) 
+      return res.status(400).json({
+        msg: 'Request Faild',
+        code: 400
+      })
   
-    User.findByIdAndUpdate(req.params.id, {
+    User.findByIdAndUpdate(id, {
       $set: req.body
     }, { new: true })
       .then(result => {
@@ -99,7 +115,15 @@ class userController {
   }
 
   async delete () {
-    User.findByIdAndDelete(req.params.id)
+    const id = req.params.id
+
+    if (!mongoose.isValidObjectId(id)) 
+      return res.status(400).json({
+        msg: 'Request Faild',
+        code: 400
+      })
+
+    User.findByIdAndDelete(id)
       .then(() => {
         res.status(200).json({
           msg: 'user is delete'
