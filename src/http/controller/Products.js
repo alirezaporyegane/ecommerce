@@ -4,6 +4,7 @@ _ = require('lodash');
 
 
 class productsContrller {
+  // GET ALL PRODUCTS
   async getAll (req, res) {
     const qNew = req.query.new
     const qCategories = req.query.categories
@@ -30,6 +31,7 @@ class productsContrller {
     }
   }
 
+  // GET COUNT
   async getCount (req, res) {
     Products.find().countDocuments()
       .then(result => {
@@ -43,6 +45,7 @@ class productsContrller {
       })
   }
 
+  // GET ONE PRODUCTS
   async getById (req, res) {
     const id = req.params.id
 
@@ -64,6 +67,7 @@ class productsContrller {
       })
   }
 
+  // POST PRODUCTS
   async create (req, res) {
     const products = new Products(_.pick(req.body,  ['title', 'desc', 'img', 'categories', 'size', 'color', 'price' ]))
   
@@ -79,6 +83,7 @@ class productsContrller {
       })
   }
 
+  // UPDATE PRODUCTS
   async update (req, res) {
     const id = req.params.id
 
@@ -102,6 +107,7 @@ class productsContrller {
         })
   }
 
+  // DELETE PRODUCTS
   async delete (req, res) {
     const id = req.params.id
 

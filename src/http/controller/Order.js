@@ -4,6 +4,7 @@ Order = require('../../models/Order');
 
 
 class orderController {
+  // GET ALL ORDER
   async getAll (req, res) {
     Order.find()
       .then(result => {
@@ -17,6 +18,7 @@ class orderController {
       })
   }
 
+  // GET COUNT
   async getCount (req, res) {
     Order.find().countDocuments()
       .then(result => {
@@ -30,6 +32,7 @@ class orderController {
       })
   }
 
+  // GET STATUS
   async getStatus (req, res) {
     const date = new Date();
     const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
@@ -61,6 +64,7 @@ class orderController {
       })
   }
 
+  // GET ONE ORDER
   async getById (req, res) {
     const id = req.params.id
 
@@ -82,6 +86,7 @@ class orderController {
       })
   }
 
+  // POST ORDER
   async create (req, res) {
     const order = new Order(_.pick(req.body,  ['userId', 'products', 'amount', 'address', 'status']))
   
@@ -97,6 +102,7 @@ class orderController {
       })
   }
 
+  // UPDATE ORDER
   async update (req, res) {
     const id = req.params.id
 
@@ -120,6 +126,7 @@ class orderController {
         })
   }
 
+  // DELETE ORDER
   async delete (req, res) {
     const id = req.params.id
 

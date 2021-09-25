@@ -4,6 +4,8 @@ User = require('../../models/User'),
 _ = require('lodash');
 
 class userController {
+
+  // GET ALL USER
   async getAll (req, res) {
     const query = req.query.new
     query ? 
@@ -20,6 +22,7 @@ class userController {
       })
   }
 
+  // GET COUNT
   async getCount (req, res) {
     User.find().countDocuments()
       .then(result => {
@@ -33,6 +36,7 @@ class userController {
       })
   }
 
+  // GET ONE USER
   async getById (req, res) {
     const id = req.params.id
 
@@ -54,6 +58,7 @@ class userController {
       })
   }
 
+  // GET STATUS
   async getStatus (req, res) {
     const date = new Date();
     const lastYear = new Date(date.setFullYear() - 1)
@@ -83,6 +88,7 @@ class userController {
       })
   }
 
+  // UPDATE USER
   async update () {
     const password = req.body.password
     const id = req.params.id
@@ -114,6 +120,7 @@ class userController {
       })
   }
 
+  // DELETE USER 
   async delete () {
     const id = req.params.id
 
