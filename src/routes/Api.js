@@ -1,5 +1,5 @@
 const app = require('express')();
-const Auth = require('./auth');
+const Auth = require('./Auth');
 const Cart = require('./Cart');
 const Order = require('./Order');
 const Products = require('./Products');
