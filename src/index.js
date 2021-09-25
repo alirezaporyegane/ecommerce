@@ -41,7 +41,7 @@ class App {
   }
 
   setupRoutes () {
-    const Api = require('./src/routes/Api');
+    const Api = require('./routes/Api');
 
     app.use('/api', Api);
   }

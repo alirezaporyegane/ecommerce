@@ -1,4 +1,4 @@
-const User = require('../modules/User'),
+const User = require('../../models/User'),
 _ = require('lodash'),
 jwt = require('jsonwebtoken'),
 cryptoJS = require('crypto-js');
