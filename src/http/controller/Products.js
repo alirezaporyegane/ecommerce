@@ -1,5 +1,6 @@
-const Products = require('../modules/Products');
-const _ = require('lodash');
+const Products = require('../modules/Products'),
+mongoose = require('mongoose'),
+_ = require('lodash');
 
 
 class productsContrller {
