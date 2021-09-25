@@ -1,6 +1,6 @@
 const mongoose = require('mongoose'),
 _ = require('lodash'),
-Order = require('../modules/Order');
+Order = require('../../models/Order');
 
 
 class orderController {

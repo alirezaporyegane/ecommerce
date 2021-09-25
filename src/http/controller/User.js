@@ -1,6 +1,6 @@
 const cryptoJS = require('crypto-js'),
 mongoose = require('mongoose'),
-User = require('../modules/User'),
+User = require('../../models/User'),
 _ = require('lodash');
 
 class userController {

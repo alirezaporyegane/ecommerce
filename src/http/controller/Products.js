@@ -1,4 +1,4 @@
-const Products = require('../modules/Products'),
+const Products = require('../../models/Products'),
 mongoose = require('mongoose'),
 _ = require('lodash');
 
