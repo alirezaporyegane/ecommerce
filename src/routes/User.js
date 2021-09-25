@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Auth, authentication, Admin } = require('../middleware/VerifyToken')
+const { Auth, authentication, Admin } = require('../http/middleware/VerifyToken')
 const cryptoJS = require('crypto-js');
 const User = require('../modules/User');
 const _ = require('lodash');

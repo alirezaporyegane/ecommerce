@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
-const Api = require('./routes/Api');
+const Api = require('./src/routes/Api');
 require('dotenv').config()
 
 mongoose.connect("mongodb://127.0.0.1:27017/eCommers",{
